@@ -1,0 +1,81 @@
+export PATH := $(PATH):$(HOME)/local/sdcc/bin
+
+#MCU  = stm8s003f3
+MCU  = stm8s103f3
+ARCH = stm8
+
+F_CPU   ?= 2000000
+TARGET  ?= main.ihx
+OUTPUT   = $(TARGET:.ihx=.hex)
+
+LIBDIR  += ../../HAL
+LIBDIR  += ../../../../OPL/Core
+LIBDIR  += ../../../../OPL/Core/Helpers
+
+
+ifeq ($(NODE),slave)
+	LIBDIR  += ../../../../OPL/Slave
+endif
+
+ifeq ($(NODE),master)
+	LIBDIR  += ../../../../OPL/Master
+endif
+
+
+INCLUDE := $(addprefix -I,$(LIBDIR))
+
+SRCS := $(wildcard *.c)
+SRCS += $(foreach sdir,$(LIBDIR),$(wildcard $(sdir)/*.c))
+
+#SRCS    := $(wildcard *.c $(LIBDIR)/*.c)
+#ASRCS   := $(wildcard *.s $(LIBDIR)/*.s)
+
+OBJS     = $(SRCS:.c=.rel)
+OBJS    += $(ASRCS:.s=.rel)
+
+CC       = sdcc
+LD       = sdld
+AS       = sdasstm8
+OBJCOPY  = sdobjcopy
+ASFLAGS  = -plosgff
+CFLAGS   = -m$(ARCH) -p$(MCU) --std-sdcc11
+CFLAGS  += -DF_CPU=$(F_CPU)UL -I.
+CFLAGS  += --stack-auto --noinduction --use-non-free
+## Disable lospre (workaround for bug 2673)
+#CFLAGS  += --nolospre
+
+LDFLAGS  = -m$(ARCH) -l$(ARCH) --out-fmt-ihx
+CFLAGS  += -DBIG_ENDIAN
+
+ifeq ($(NODE),slave)
+	CFLAGS += -DSLAVE
+endif
+
+ifeq ($(NODE),master)
+	CFLAGS += -DMASTER
+endif
+
+all: $(TARGET) pack
+
+$(TARGET): $(OBJS)
+	$(CC) $(LDFLAGS) $(OBJS) -o $@
+
+%.rel: %.c
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
+%.rel: %.s
+	$(AS) $(ASFLAGS) $<
+
+pack:
+	@packihx $(TARGET) > $(OUTPUT)
+	@for /f "tokens=5 delims=. " %%a in ('findstr "\<DATA\>" main.map') do echo RAM 1: %%a bytes
+	@for /f "tokens=5 delims=. " %%b in ('findstr "\<INITIALIZED\>" main.map') do echo RAM 2: %%b bytes
+	@echo Done!
+
+flash: $(TARGET)
+	STVP_CmdLine -Device="STM8S103F3" -FileProg="main.hex" -no_loop
+
+clean:
+	@cd ../../../../ && del /S *.map *.asm *.rel *.ihx *.o *.sym *.lk *.lst *.rst *.cdb *.bin *.hex
+
+.PHONY: pack clean all flash
