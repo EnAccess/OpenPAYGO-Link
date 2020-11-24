@@ -11,18 +11,14 @@ Open PAYGO Link (OPLink) is a communication protocol created as an open source s
 * Slave nodes can instantly detect that they have been disconnected, the master requires polling.
 * The library API provides a unique ID list of the connected nodes. The mapping from UID to local address is done internally.
 * A node can only handle one request at a time.
-* Peer-to-peer communication is not supported in this version.
 * A custom light version of the OCF standard is included (with tiny CoAP and CBOR libraries).
 
+
 ## What is going to change soon
+* Slave initiated communication will be supported
 * The CSMA/CA mechanism will be refined.
 * All the messages will require acknowledgment, even broadcasts.
-* The network will have a manager and workers instead of a master and slaves.
-* Peer-to-peer communication will be supported.
 
-## Plans for the future
-* Any node (that supports the feature) could take the role of the manager.
-* Allow network merging.
 
 ## Compatible MCUs
 
