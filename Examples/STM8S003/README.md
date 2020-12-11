@@ -6,7 +6,7 @@ The STM8SX03 is an inexpensive microcontroller with 8kB of flash and 1kB or RAM 
 
 ## Schematic
 Although the provided schematic is for the STMSX03 targets, the connections between the LIN transceiver and any other microcontroller should be equivalent.
-![](/schematic.png)
+![Slave Board Schematic](https://github.com/EnAccess/OpenPAYGO-Link/raw/main/Examples/STM8S003/schematic.png)
 
 ## Build/Flash
 The projects are built using Make and [Small Device C Compiler](http://sdcc.sourceforge.net/) (SDCC). This compiler supports different targets including a couple of STM8S variants, which need to be defined in the MCU field of the *Makefile.include* file. Either "stm8s003f3" or "stm8s103f3" will work.
