@@ -15,17 +15,9 @@
 
 volatile uint32_t g_millis;
 
-uint16_t c_millis;
-void (*callback)(void);
-
 void timer_isr() __interrupt(TIM4_ISR) { // Every 1ms
     static uint16_t elapsed_millis = 0;
     g_millis++;
-
-    if((callback != NULL) && (--c_millis == 0)) {
-        callback();
-        callback = NULL;
-    }
 
     TIM4_SR &= ~(1 << TIM4_SR_UIF); // Clear TIM4 flags
 }
@@ -46,9 +38,4 @@ void TIM4_init() {
 
 uint32_t millis() {
     return g_millis;
-}
-
-void TIM4_timeout_attach(void (*_callback)(void), uint16_t ms) {
-    c_millis = ms;
-    callback = _callback;
 }

@@ -17,20 +17,21 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-/*
- * Read the desired number of received bytes, and return true if the CRC is OK.
+/* Check if there is a frame ready to be read and parse the header in that case.
+ * Returns the number of received bytes (0-124). When the function is called,
+ * it clears all the unread bytes from the last call. */
+uint8_t opl_parse();
+
+/* Read the desired number of received bytes, and return true if the CRC is OK.
  * The "len" parameter can be less than what opl_parse() returns, but then
  * several calls are needed to calculate properly the CRC. This function should
- * be called, right after calling opl_parse().
- */
+ * be called, right after calling opl_parse() and in the same loop iteration. */
 bool opl_read(uint8_t *buf, uint8_t len);
 
-/*
- * Check if there is a frame ready to be read and parse the header in that case.
- * Returns the number of received bytes (0-124). When the function is called,
- * it clears all the unread bytes from the last call.
- */
-uint8_t opl_parse();
+/* Send a reply to a request. It must be called only after opl_read() returns
+ * true. The function returns true if it was possible to send the reply or false
+ * otherwise. */
+bool opl_send_reply(uint8_t *buf, uint8_t len);
 
 #ifdef __cplusplus
 }

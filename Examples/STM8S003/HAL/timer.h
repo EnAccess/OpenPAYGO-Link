@@ -24,8 +24,6 @@ void TIM4_init();
 
 uint32_t millis();
 
-void TIM4_timeout_attach(void (*callback)(void), uint16_t ms);
-
 #ifdef __cplusplus
 }
 #endif

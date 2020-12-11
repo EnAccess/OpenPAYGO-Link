@@ -16,6 +16,7 @@ extern "C" {
 
 #include <stdint.h>
 #include <string.h>
+#include "oplink_adapters.h"
 
 #if ! defined BIG_ENDIAN && ! defined LITTLE_ENDIAN
 #error #error "Endianess not defined"
