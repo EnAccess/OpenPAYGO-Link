@@ -28,6 +28,7 @@ uint8_t slave_list_available() {
 }
 
 bool slave_list_add(uint8_t new_addr, uint8_t *uid, uint8_t len) {
+    slave_clear_slot(map_uid_to_addr(uid) - 1); // Remove old entry if any
     uint8_t index = new_addr - 1;
     if(slaves[index].addr == 0x00) { // Convert from addr to index
         slaves[index].addr = new_addr;
@@ -48,7 +49,7 @@ void slave_clear_slot(uint8_t index) {
 
 void slave_ping_error(uint8_t addr) {
     if(++(slaves[--addr].ping_error) == MAX_PING_ERROR) // Convert to index
-        slave_clear_slot(addr); // Pass the address
+        slave_clear_slot(addr); // Pass the index
 }
 
 void slave_set_ping_period(uint8_t addr, uint8_t ticks) {
@@ -106,7 +107,7 @@ void get_slave_list(opl_slave_list_t *ptr) {
     }
 }
 
-uint8_t _map_uid_to_addr(uint8_t *uid) {
+uint8_t map_uid_to_addr(uint8_t *uid) {
     for(uint8_t i = 0; i < MAX_SLAVES; i++)
         if(memcmp(uid, slaves[i].uid, strlen(slaves[i].uid)) == 0)
             return slaves[i].addr;

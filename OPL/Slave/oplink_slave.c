@@ -19,7 +19,7 @@
 #define PLUG_IN_MAX_COUNT 20 // 20 * 50 = 1000ms
 #define DISCONNECT_MAX_COUNT 10 // 10 * 50 = 500ms
 #define NO_CONFIG_MAX_COUNT 40 // 40 * 50 = 2000ms
-#define NO_PING_MAX_COUNT 1200 // 1200 * 50 = 60000ms
+#define NO_PING_MAX_COUNT 1200 // 1200 * 50 = 60000ms = 60 seconds
 
 typedef enum {
     Disconnected,

@@ -20,7 +20,6 @@ extern "C" {
 
 #define LOOP_TIME 50U //50ms
 #define SEND_REPLY_TIMEOUT 2U
-//#define RESPONSE_TIMEOUT 2U
 #define RECEIVE_REPLY_TIMEOUT 3U // Smaller than SEND_REPLY_TIMEOUT
 
 /* Set the node address */

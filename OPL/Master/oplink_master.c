@@ -22,7 +22,7 @@
 static uint8_t new_slave_addr;
 
 bool opl_push_request(uint8_t *uid, uint8_t *data, uint8_t len) {
-    uint8_t dest = _map_uid_to_addr(uid);
+    uint8_t dest = map_uid_to_addr(uid);
     if(dest == 0) return false; // No uid match
     return push_request(dest, data, len, true); // Wait for reply
 }
@@ -65,7 +65,7 @@ static void handle_ack(uint8_t *args, uint8_t len) {
             }
             break;
         case PING:
-            slave_set_ping_period(get_last_dest(), 5);
+            slave_set_ping_period(get_last_dest(), PING_PERIOD);
             break;
     }
 }
