@@ -1,0 +1,3 @@
+# OpenPAYGO Link STM32 examples
+
+This directory will contain a set of basic usage examples of the OpenPAYGO Link package on an STM32 microcontroller. The goal of those examples will be to showcase more advanced uses of OpenPAYGO Link with Nexus Channel Core and provide a basis for people wanting to add more advanced communication features to their devices (at a higher cost than the STM8-based examples). 

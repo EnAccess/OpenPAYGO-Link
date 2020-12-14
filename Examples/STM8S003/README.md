@@ -1,5 +1,7 @@
 # OpenPAYGO Link STM8S examples
-This directory contains a set of basic usage examples of the OpenPAYGO Link package on a STM8SX03 microcontroller. The examples use a minimal custom Hardware Abstraction Layer and require no external libraries.
+This directory contains a set of basic usage examples of the OpenPAYGO Link package on a STM8SX03 microcontroller. The examples use a minimal custom Hardware Abstraction Layer and require no external libraries. 
+
+Due to the very limited resources of this MCU, these examples are meant to showcase the core features of OpenPAYGO Link used with Nexus Channel Core and provide a basis for people wanting to implement simple use cases into their devices at a low cost. 
 
 ## Target
 The STM8SX03 is an inexpensive microcontroller with 8kB of flash and 1kB or RAM and a maximum clock speed of 16MHz (in all the examples the clock is set to the default speed of 2MHz). Either the STM8S003F3P6 or the STM8S103F3P6 can be used, the only difference between them being that the first one supports less flash write cycles. There are development boards that include these microcontrollers like the STM8S003 Discovery board from ST or the [STM8S003/103](https://tenbaht.github.io/sduino/hardware/stm8blue/) "blue pill" boards.

@@ -1,48 +1,50 @@
 # OpenPAYGO Link
-Open PAYGO Link (OPLink) is a communication protocol created as an open source standard solution for interfacing Solar Home Systems (SHS) with appliances and accessories. It is defined at hardware and software levels and features a half-duplex communication over a single wire with a multi-drop connection topology. It ensures reliable data transmission, even with different ground potentials between nodes, thanks to an off the shelf transceiver. Although it is not intended to transmit long frames it supports any variable-length payload. Check the compatible targets below.
 
-## What is implemented
-* The network uses a master/slave configuration.
-* Two kinds of messages are available: request/reply and broadcast.
-* The master can automatically discover new slaves and assign them a local address.
-* Slave nodes can instantly detect that they have been disconnected, the master requires polling.
-* The library API provides a unique ID list of the connected nodes. The mapping from UID to local address is done internally.
-* A node can only handle one request at a time.
-* Slave nodes can directly send messages to the master (no need for polling from the master).
+## What is OpenPAYGO Link?
 
-## Compatible MCUs
-In order to implement the OpenPAYGO Link in a specific MCU it needs to support 9-bit multiprocessor UART with address mode wake up. Some compatible MCUs are listed below:
+OpenPAYGO Link (OPLink) is an open-source communication protocol for interfacing Solar Home Systems (SHS) with appliances and accessories. It allows you to easily make your SHS and appliances communicate with each other for features such as PAYGO locking of appliances, load-scheding, monitoring, etc. It includes both the hardware and software components needed to achieve communication from one SHS to multiple appliances over a single wire. 
 
-* STM8
-Supports 8-9 bit address mode with 4 bit addresses
-[Reference manual](https://www.st.com/content/ccc/resource/technical/document/reference_manual/9a/1b/85/07/ca/eb/4f/dd/CD00190271.pdf/files/CD00190271.pdf/jcr:content/translations/en.CD00190271.pdf), check _22.3.7 Multi-processor communication_
-* STM32
-Supports 8-9 bit address mode with 4 bit addresses
-[Reference manual](https://www.st.com/resource/en/reference_manual/cd00171190-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf), check _27.3.6 Multiprocessor communication_
-* PIC18
-Supports only 9 bit address mode
-[Datasheet](http://ww1.microchip.com/downloads/en/DeviceDoc/PIC18LF26-27-45-46-47-55-56-57K42-Data-Sheet-40001919C.pdf), check _31.3 Asynchronous Address Mode_
-* MSP430
-Supports 9 bit address mode
-[User guide](https://www.ti.com/lit/ug/slau144j/slau144j.pdf?ts=1588848816104), check _15.3.3.3 Address-Bit Multiprocessor Format_ & _15.3.2 Character Format_
-* ATmega382
-Supports 8-9 bit address mode
-[Datasheet](http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf), check _19.9 Multi-processor Communication Mode_
-* NXP
-Supports 9 bit address mode
-[Datasheet](https://www.nxp.com/docs/en/data-sheet/LPC802.pdf), check _9.12 USART0/1_
-* Nordic (nRF24E1 example)
-Supports 9 bit transmission
-[Datasheet](http://www.keil.com/dd/docs/datashts/nordic/nrf24e1.pdf), check _10.9 Serial Interface_ & _10.9.5 Multiprocessor Communications_
-* Ranesas (RX130 example)
-[Hardware manual](https://www.renesas.com/us/en/doc/products/mpumcu/rx100/r01uh0560ej0300-rx130.pdf?key=76ac3ae182fd3686a9ba068a7f3a03de), check _27.4 Multi-Processor Communications Function_
-* Maxim Integrated
-Supports 9 bit address mode
-[User guide](https://pdfserv.maximintegrated.com/en/an/AN6242.pdf), check _7.5.8 Multidrop Mode Support_
-* Espressif (ESP8266 & ESP32)
-No hardware 9 bit transmission support but there are software serial libraries
-[9 bit Software Serial library](https://github.com/ionini/espsoftwareserial)
-* Raspberry
-Hardware supports 9 bit but official Kernel does not (?)
-[9 bit patch](https://patchwork.kernel.org/patch/8498531/), apparently the patch
-is implemented already: [tty driver](https://github.com/raspberrypi/linux/blob/rpi-4.19.y/drivers/tty/serial/amba-pl011.c)
+## Key Features
+
+* Very small memory footprint, can run on very restricted devices (e.g. STM8 with 1kB RAM and 8kB Flash)
+* Half-duplex communication over a single wire with a multi-drop connection topology 
+* Ensures reliable data transmission, even with different ground potentials between nodes 
+* Supports variable-length payload 
+* Supports standard request/reply and broadcast (to send requests to all appliances at once)
+* The SHS (master) can automatically discover new appliances (slaves) and assign them a local address
+* Slave nodes can instantly detect that they have been disconnected
+* Slave nodes can directly send messages to the master (no need for polling from the master) 
+
+It was designed to be used with Nexus Channel Core (based on the Open Connectivity Foundation communication standard) that provides standard resource model for common use cases. However, it is flexible enough that it can  be used with other application layers. 
+
+
+**Limitations:**
+
+There are a few limitations that are the result of compromises to keep the system as lightweight as possible. 
+
+* The system is not intended to transmit large amount of data
+* A node can only handle one request at a time
+* The system can be slow if there are a lot of slaves on the bus
+* The master needs to poll the appliances to detect that they have been disconnected
+
+## Getting Started
+
+This repository has resources to help you get started with adding OpenPAYGO Link to your SHS and/or appliance. There are a few options depending on your stage of development: 
+
+**1. The STM8-based development board:** this small PCB includes the hardware required for OpenPAYGO Link (MCU + transceiver) as well as a buck converter to supply power from the power line and a switch controlled by the MCU. It is provided with an example firmware to get you started quickly (see ["Examples"](Examples/)). You can just drop the dev board into a prototype to have it control the switch in an appliance. 
+
+**2. The STM8-based addon board:** this small PCB includes the bare minimum required for OpenPAYGO Link. You can add this addon board to an existing PCB as a way to quickly add OpenPAYGO Link to your system while not making any changes to the main MCU of your system. The addon board communicates with your main MCU through a simple GPIO to make it as easy as possible to use as all of the OpenPAYGO Link system is handled by the addon board. It is also provided with an example firmware (see ["Examples"](Examples/)). 
+
+**3. Adapt the library for your main MCU:** This is the most cost efficient method as it does not require a secondary MCU just for OpenPAYGO Link. However, it requires more engineering as you need to develop some hardware abstractions to allow the OpenPAYGO Link library to use your device (see ["OPL"](OPL/)). This also requires your MCU to be compatible with 9-bit multiprocessor UART, which is very common but some MCU might not be supported. We keep a list of some MCUs known to be compatible with OpenPAYGO Link [here](Documentation/compatible_mcus.md). 
+
+![OpenPAYGO Link STM8 Development Board](Documentation/images/dev_board.png)
+*OpenPAYGO Link STM8 Development Board*
+
+
+## What's next? 
+
+As the core of the features are implemented, we will focus our future efforts in adding more examples to help make it easier to adopt OpenPAYGO Link even for more complex use cases. In particular, we will focus on adding an example development board and addon board based on STM32 that will showcase more advanced use cases with more Nexus Channel Core endpoints and provide a basis to start more complex projects. 
+
+We are welcoming external contribution to the projects, and we would be very happy to accept pull requests for implementation on any other MCU targets to make it easier for people to add OpenPAYGO Link to their main MCU as quickly as possible. 
+
+You can track all of the new features and changes to the project in the [Changelog](CHANGELOG.md). 
