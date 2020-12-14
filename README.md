@@ -6,7 +6,7 @@ OpenPAYGO Link (OPLink) is an open-source communication protocol for interfacing
 
 ## Key Features
 
-* Very small memory footprint, can run on very restricted devices (e.g. STM8 with 1kB RAM and 8kB Flash)
+* Very small footprint, can run on very restricted devices (e.g. STM8 with 1kB RAM and 8kB Flash)
 * Half-duplex communication over a single wire with a multi-drop connection topology 
 * Ensures reliable data transmission, even with different ground potentials between nodes 
 * Supports variable-length payload 
