@@ -4,7 +4,7 @@
  * Author:      Daniel Nedosseikine
  * Company:     Solaris Offgrid
  * Created on:  05/05/2020
- * Description: Adaper layer template, update with target functions.
+ * Description: Adaper layer template. To use this file you need to update it with your target's functions and change the file type to ".h"
  */
 
 #ifndef OPL_ADAPTERS_H
