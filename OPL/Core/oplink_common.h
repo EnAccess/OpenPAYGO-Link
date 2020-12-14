@@ -52,12 +52,6 @@ enum core_commands {
     EXT      = 20  // Dummy command
 };
 
-enum handshake_error {
-    NULL_POINTER_ERROR  = -1,
-    REPLY_TIMEOUT_ERROR = -2,
-    BAD_CRC_ERROR       = -3
-};
-
 #define IPv6_SIZE 6
 #define UID_SIZE  12
 #define KEY_SIZE  8

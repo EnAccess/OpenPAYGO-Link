@@ -18,27 +18,27 @@ extern "C" {
 #include <stdbool.h>
 #include "oplink_common.h"
 
-////////////////////////////  I N T E R R U P T S  /////////////////////////////
+/* Endianness *****************************************************************/
+#define BIG_ENDIAN
+/******************************************************************************/
 
+/* Interrupts *****************************************************************/
 #include "stm8s.h"
 #define OPL_ENABLE_INTERRUPTS()     enable_interrupts()
 #define OPL_DISABLE_INTERRUPTS()    disable_interrupts()
+/******************************************************************************/
 
-
-/////////////////////////////////  D E L A Y  //////////////////////////////////
-
+/* Delay **********************************************************************/
 #include "delay.h"
 #define OPL_DELAY(_ms)   delay_ms(_ms)
+/******************************************************************************/
 
-
-/////////////////////////////////  T I M E R  //////////////////////////////////
-
+/* Timer **********************************************************************/
 #include "timer.h"
 #define OPL_MILLIS()                        millis()
-#define OPL_ATTACH_TIMEOUT(_callback, _ms)  TIM4_timeout_attach(_callback, _ms)
+/******************************************************************************/
 
-///////////////////////////////////  L I N  ////////////////////////////////////
-
+/* LIN ************************************************************************/
 #include "gpio.h"
 #define LIN_PORT PD
 #define LIN_PIN  4
@@ -54,10 +54,9 @@ extern "C" {
 
 /* Disable write mode on the LIN transceiver, set CS pin to low */
 #define OPL_LIN_DISABLE_TX()    gpio_write_low(LIN_PORT, LIN_PIN)
+/******************************************************************************/
 
-
-//////////////////////////////////  U A R T  ///////////////////////////////////
-
+/* UART ***********************************************************************/
 #include "uart.h"
 
 #define UART_TX_PORT PD
@@ -65,7 +64,7 @@ extern "C" {
 #define UART_RX_PORT PD
 #define UART_RX_PIN 6
 
-/* 9-bit UART @ 9600 bauds */
+/* 9-bit UART @ 19200 bauds */
 #define OPL_UART_INIT(_addr, _callback)     uart_init(_addr, _callback)
 #define OPL_UART_IS_ADDR()                  uart_is_addr()
 #define OPL_UART_IS_BUSY()                  uart_is_busy()
@@ -73,7 +72,6 @@ extern "C" {
 #define OPL_UART_SET_ADDR(_addr)            uart_set_addr(_addr)
 #define OPL_UART_MUTE()                     uart_mute()
 #define OPL_UART_FLUSH_RX()                 uart_flush_rx_buffer()
-#define OPL_UART_PEEK_BYTE()                uart_peek_byte()
 #define OPL_UART_READ_BYTE()                uart_read_byte()
 #define OPL_UART_WRITE_BYTE(_byte)          uart_write(_byte)
 #define OPL_UART_WRITE_ADDR(_addr)          uart_write_addr(_addr)
@@ -81,10 +79,9 @@ extern "C" {
 #define OPL_UART_ENABLE_RX()                UART_ENABLE_RX()
 #define OPL_UART_DISABLE_RX()               UART_DISABLE_RX()
 #define OPL_READ_RX_PIN()                   gpio_read(UART_RX_PORT, UART_RX_PIN)
+/******************************************************************************/
 
-
-///////////////////////////////  S T O R A G E  ////////////////////////////////
-
+/* Storage ********************************************************************/
 #ifdef SLAVE
 
 #include "eeprom.h"
@@ -104,6 +101,7 @@ extern "C" {
 #define OPL_LOAD_UID(_uid_ptr) eeprom_read_string(UID_ADDR, _uid_ptr, UID_SIZE)
 
 #endif /* SLAVE */
+/******************************************************************************/
 
 #ifdef __cplusplus
 }

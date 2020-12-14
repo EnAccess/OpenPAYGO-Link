@@ -50,8 +50,6 @@ bool uart_is_busy();
 
 void uart_clear_busy_flag();
 
-uint8_t uart_peek_byte();
-
 uint8_t uart_read_byte();
 
 void uart_write(uint8_t data);

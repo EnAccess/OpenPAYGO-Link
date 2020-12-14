@@ -15,6 +15,7 @@
 #include "oplink_common.h"
 
 #define MAX_PING_ERROR 3
+#define PING_PERIOD 30 // seconds
 
 typedef struct {
     uint8_t addr;
@@ -39,6 +40,6 @@ void slave_list_ping_tick();
 
 uint8_t next_slave_ping();
 
-uint8_t _map_uid_to_addr(uint8_t *uid);
+uint8_t map_uid_to_addr(uint8_t *uid);
 
 #endif /* SLAVE_LIST_PRIVATE_H */

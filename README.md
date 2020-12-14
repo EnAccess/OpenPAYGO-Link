@@ -1,7 +1,4 @@
 # OpenPAYGO Link
-
-**Beta release, don't use in production**
-
 Open PAYGO Link (OPLink) is a communication protocol created as an open source standard solution for interfacing Solar Home Systems (SHS) with appliances and accessories. It is defined at hardware and software levels and features a half-duplex communication over a single wire with a multi-drop connection topology. It ensures reliable data transmission, even with different ground potentials between nodes, thanks to an off the shelf transceiver. Although it is not intended to transmit long frames it supports any variable-length payload. Check the compatible targets below.
 
 ## What is implemented
@@ -11,17 +8,9 @@ Open PAYGO Link (OPLink) is a communication protocol created as an open source s
 * Slave nodes can instantly detect that they have been disconnected, the master requires polling.
 * The library API provides a unique ID list of the connected nodes. The mapping from UID to local address is done internally.
 * A node can only handle one request at a time.
-* A custom light version of the OCF standard is included (with tiny CoAP and CBOR libraries).
-
-
-## What is going to change soon
-* Slave initiated communication will be supported
-* The CSMA/CA mechanism will be refined.
-* All the messages will require acknowledgment, even broadcasts.
-
+* Slave nodes can directly send messages to the master (no need for polling from the master).
 
 ## Compatible MCUs
-
 In order to implement the OpenPAYGO Link in a specific MCU it needs to support 9-bit multiprocessor UART with address mode wake up. Some compatible MCUs are listed below:
 
 * STM8

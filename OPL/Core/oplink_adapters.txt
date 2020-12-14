@@ -1,0 +1,112 @@
+/*
+ * Filename:    opl_adapters.h
+ * Project:     OpenPAYGO Link
+ * Author:      Daniel Nedosseikine
+ * Company:     Solaris Offgrid
+ * Created on:  05/05/2020
+ * Description: Adaper layer template, update with target functions.
+ */
+
+#ifndef OPL_ADAPTERS_H
+#define OPL_ADAPTERS_H 1
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <stdint.h>
+#include <stdbool.h>
+#include "oplink_common.h"
+
+/* Endianness *****************************************************************/
+#define BIG_ENDIAN
+//#define LITTLE_ENDIAN
+/******************************************************************************/
+
+/* Interrupts *****************************************************************/
+#include // definitions
+#define OPL_ENABLE_INTERRUPTS()     // Enable interrupts
+#define OPL_DISABLE_INTERRUPTS()    // Disable interrupts
+/******************************************************************************/
+
+/* Delay **********************************************************************/
+#include // delay
+#define OPL_DELAY(_ms)   // Delay
+/******************************************************************************/
+
+/* Timer **********************************************************************/
+#include // timer
+#define OPL_MILLIS()                        // Milliseconds
+/******************************************************************************/
+
+/* LIN ************************************************************************/
+#include // gpio
+/* Init LIN pin */
+#define LIN_PORT // port
+#define LIN_PIN  // pin
+
+/* Configure the LIN transceiver control pin (CS) as a pushpull output */
+#define OPL_LIN_INIT() do { \
+    // Set gpio as output \
+    // Set gpio as pushpull \
+} while(0)
+
+/* Enable write mode on the LIN transceiver, set CS pin to high */
+#define OPL_LIN_ENABLE_TX()     // Write high on LIN pin
+
+/* Disable write mode on the LIN transceiver, set CS pin to low */
+#define OPL_LIN_DISABLE_TX()    // Write low on LIN pin
+/******************************************************************************/
+
+/* UART ***********************************************************************/
+#include // uart
+/* Init UART pins */
+#define UART_TX_PORT // Port
+#define UART_TX_PIN // Pin
+#define UART_RX_PORT // Port
+#define UART_RX_PIN // Pin
+
+/* 9-bit UART @ 19200 bauds */
+#define OPL_UART_INIT(_addr, _callback)     // Init UART
+#define OPL_UART_IS_ADDR()                  // Check if 9th bit is set (addr)
+#define OPL_UART_IS_BUSY()                  // Check if UART is busy (receiving)
+#define OPL_UART_CLEAR_BUSY()               // Reset busy flag
+#define OPL_UART_SET_ADDR(_addr)            // Set UART hardware address
+#define OPL_UART_MUTE()                     // Mute UART
+#define OPL_UART_FLUSH_RX()                 // Flush UART buffer
+#define OPL_UART_READ_BYTE()                // Read oldest byte
+#define OPL_UART_WRITE_BYTE(_byte)          // Write byte
+#define OPL_UART_WRITE_ADDR(_addr)          // Write address (9th bit set)
+#define OPL_UART_WRITE_BREAK()              // Send break
+#define OPL_UART_ENABLE_RX()                // Enable UART RX
+#define OPL_UART_DISABLE_RX()               // Disable UART RX
+#define OPL_READ_RX_PIN()                   // Read UART RX pin
+/******************************************************************************/
+
+/* Storage ********************************************************************/
+#ifdef SLAVE
+
+#include // eeprom
+
+/* EEPROM addresses */
+#define MODE_ADDR    // 1 byte reserved for the mode
+#define SEED_ADDR    // 4 bytes reserved for the seed
+#define UID_ADDR     // 12 bytes reserved for the UID
+
+/* Get the operation mode: 0 = NC, 1 = No UID, 2 = Has UID */
+#define OPL_LOAD_MODE() // Read one byte from eeprom (MODE_ADDR)
+
+/* Get a uint32 seed for the srand func, try to keep it random */
+#define OPL_LOAD_SEED() // Read a uint32 from eeprom (SEED_ADDR)
+
+/* Get the unique ID */
+#define OPL_LOAD_UID(_uid_ptr) // Read a string from eeprom (UID_ADDR)
+
+#endif /* SLAVE */
+/******************************************************************************/
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* OPL_ADAPTERS_H */

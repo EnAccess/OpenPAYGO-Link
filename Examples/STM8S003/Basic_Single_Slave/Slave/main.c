@@ -41,6 +41,7 @@ void main() {
         // Turn off the LED after 0.5 seconds
         if( (gpio_read(PB, 5) == 0) && (ms - led_ms > 500) ) {
             gpio_write_high(PB, 5);
+            delay_ms(100);
         }
 
         // Handle incoming messages

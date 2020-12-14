@@ -35,9 +35,11 @@ void uart_init(uint8_t default_addr, void(*rx_callback)(uint8_t)) {
 
     UART1_CR2 &= ~((1 << UART1_CR2_TEN) | (1 << UART1_CR2_REN)); // RX & TX off
 
-    /* Set the baudrate to 9600 bauds. BRRx values depend on clock speed */
-    UART1_BRR2 = 0x00; // 0x08 <- 19200
-    UART1_BRR1 = 0x0D; // 0x06 <- 19200
+    /* Set the baudrate to 19200 bauds. BRRx values depend on clock speed */
+    // UART1_BRR2 = 0x00; // <- 9600
+    // UART1_BRR1 = 0x0D; // <- 9600
+    UART1_BRR2 = 0x08; //<- 19200
+    UART1_BRR1 = 0x06; // <- 19200
 
     // Set uart to 9 bit mode
     UART1_CR1 |= (1 << 4);
@@ -106,10 +108,6 @@ bool uart_is_busy() {
 
 void uart_clear_busy_flag() {
     uart.busy = false;
-}
-
-uint8_t uart_peek_byte() {
-    return rx.data_buffer[rx.iLast-1]; // Because iLast is empty
 }
 
 uint8_t uart_read_byte() {
