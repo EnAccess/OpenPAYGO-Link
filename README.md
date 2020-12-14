@@ -31,7 +31,7 @@ There are a few limitations that are the result of compromises to keep the syste
 
 This repository has resources to help you get started with adding OpenPAYGO Link to your SHS and/or appliance. There are a few options depending on your stage of development: 
 
-**1. The STM8-based development board:** this small PCB includes the hardware required for OpenPAYGO Link (MCU + transceiver) as well as a buck converter to supply power from the power line and a switch controlled by the MCU. It is provided with an example firmware to get you started quickly (see ["Examples"](Examples/)). You can just drop the dev board into a prototype to have it control the switch in an appliance. 
+**1. The STM8-based development board:** this small PCB includes the hardware required for OpenPAYGO Link (MCU + transceiver) as well as a buck converter to supply power from the power line, a switch controlled by the MCU, a push-button and an LED to facilitate testing. It is provided with an example firmware to get you started quickly (see ["Examples"](Examples/)). You can just drop the dev board into a prototype to have it control the switch in an appliance. 
 
 **2. The STM8-based addon board:** this small PCB includes the bare minimum required for OpenPAYGO Link. You can add this addon board to an existing PCB as a way to quickly add OpenPAYGO Link to your system while not making any changes to the main MCU of your system. The addon board communicates with your main MCU through a simple GPIO to make it as easy as possible to use as all of the OpenPAYGO Link system is handled by the addon board. It is also provided with an example firmware (see ["Examples"](Examples/)). 
 
